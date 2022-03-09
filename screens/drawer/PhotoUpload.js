@@ -47,7 +47,6 @@ const Photos = ({ navigation }) => {
 
     const retrievefunction = async (id, date) => {
         console.log(id, date)
-        setSelectedLanguage('')
         setLoading(true)
         fetch(`http://45.32.125.99/dives/public/api/get-images`, {
             method: 'POST',
@@ -137,6 +136,7 @@ const Photos = ({ navigation }) => {
         React.useCallback(() => {
             // Do something when the screen is focused
             if (userData) {
+                setSelectedLanguage('')
                 retrievefunction(userData.data._id, null)
             }
 
