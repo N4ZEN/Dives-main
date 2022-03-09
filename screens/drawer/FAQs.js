@@ -64,7 +64,7 @@ const FAQs = ({ navigation }) => {
 
   const _handleSubmit = () => {
     setLoading(true)
-    fetch(`http://157.245.56.243/dives/public/api/submit-feedback`, {
+    fetch(`http://45.32.125.99/dives/public/api/submit-feedback`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

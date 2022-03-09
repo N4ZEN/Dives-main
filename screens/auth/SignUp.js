@@ -41,7 +41,7 @@ const SignUp = ({ navigation }) => {
 
     const handleSignUp = () => {
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/register`, {
+        fetch(`http://45.32.125.99/dives/public/api/register`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

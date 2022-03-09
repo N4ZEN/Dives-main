@@ -68,7 +68,7 @@ const Profilescreen = ({ navigation }) => {
         body.append('name', username);
         body.append('email', userData.data.email);
         body.append('image', file);
-        fetch(`http://157.245.56.243/dives/public/api/update-profile`, {
+        fetch(`http://45.32.125.99/dives/public/api/update-profile`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -154,7 +154,7 @@ const Profilescreen = ({ navigation }) => {
                     <Uploadphotos
                         image={!userData ? image
                             : !userData.data.image ? image
-                                : 'http://157.245.56.243/dives/public/' + userData.data.image}
+                                : 'http://45.32.125.99/dives/public/' + userData.data.image}
                         addImage={() => addImage()}
                     />
                 </View>

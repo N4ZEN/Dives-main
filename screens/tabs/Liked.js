@@ -300,8 +300,10 @@ const Liked = ({ navigation }) => {
 
 
     const retrievefunction = async (id) => {
+        console.log('======>',id)
+        setSelectedLanguage('')
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/get-dives`, {
+        fetch(`http://45.32.125.99/dives/public/api/get-dives`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -349,7 +351,7 @@ const Liked = ({ navigation }) => {
     }
     const deletefunction = async (id) => {
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/delete-dive`, {
+        fetch(`http://45.32.125.99/dives/public/api/delete-dive`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -397,7 +399,7 @@ const Liked = ({ navigation }) => {
         }, [userData])
     )
     const loadData = (id) => {
-        retrievefunction(id)
+        retrievefunction(userData.data._id)
         setRefreshing(false)
     }
     useEffect(() => {

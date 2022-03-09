@@ -44,7 +44,7 @@ const SignIn = ({ navigation }) => {
 
     const handleLogin = () => {
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/login`, {
+        fetch(`http://45.32.125.99/dives/public/api/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -57,6 +57,7 @@ const SignIn = ({ navigation }) => {
         })
             .then(res => res.json())
             .then(json => {
+                console.log('===>',json)
                 setLoading(false)
                 if (json.status == 200) {
                     try {
@@ -76,7 +77,6 @@ const SignIn = ({ navigation }) => {
                 } else {
                     Alert.alert('', json.message)
                 }
-
             })
             .catch(error => {
                 setLoading(false)

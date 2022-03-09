@@ -155,7 +155,7 @@ const Marinelife = ({ parentCallback, MarineLifee }) => {
             aspect: [4, 3],
             quality: 1,
         });
-      //  console.log('..>', JSON.stringify(_image));
+        //  console.log('..>', JSON.stringify(_image));
         let data = {
             name: Date.now() + '_Dives',
             type: 'image/jpeg',
@@ -169,7 +169,7 @@ const Marinelife = ({ parentCallback, MarineLifee }) => {
         setLoading(true)
         const body = new FormData();
         body.append('image', file);
-        fetch(`http://157.245.56.243/dives/public/api/get-path`, {
+        fetch(`http://45.32.125.99/dives/public/api/get-path`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -206,7 +206,7 @@ const Marinelife = ({ parentCallback, MarineLifee }) => {
             //console.log('......>', mledit)
             if (mledit.MarineLife && Object.keys(mledit.MarineLife).length !== 0) {
 
-               // setmlVisible(true)
+                // setmlVisible(true)
                 let newarr = mledit.MarineLife
                 newarr.forEach((item, index) => {
                     if (item.selected === true) {

@@ -112,7 +112,7 @@ const Drawerscreen = props => {
                 }}
               />
               : <Image
-                source={{ uri: 'http://157.245.56.243/dives/public/' + userData.data.image }}
+                source={{ uri: 'http://45.32.125.99/dives/public/' + userData.data.image }}
                 style={{
                   width: 50,
                   height: 50,

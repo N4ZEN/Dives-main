@@ -47,8 +47,9 @@ const Photos = ({ navigation }) => {
 
     const retrievefunction = async (id, date) => {
         console.log(id, date)
+        setSelectedLanguage('')
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/get-images`, {
+        fetch(`http://45.32.125.99/dives/public/api/get-images`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -64,16 +65,16 @@ const Photos = ({ navigation }) => {
                 //console.log(json)
                 setLoading(false)
                 if (json.status == 200) {
-                    let newarr =[];
-                    json.data.forEach(function(value, index, array) {
-                        if(value.images.length !== 0){
+                    let newarr = [];
+                    json.data.forEach(function (value, index, array) {
+                        if (value.images.length !== 0) {
                             newarr.push(value)
                         }
                         // The callback is executed for each element in the array.
                         // `value` is the element itself (equivalent to `array[index]`)
                         // `index` will be the index of the element in the array
                         // `array` is a reference to the array itself (i.e. `data.items` in this case)
-                    }); 
+                    });
                     setImagesArr(newarr)
                 } else {
                     Alert.alert('', json.message)
@@ -160,15 +161,15 @@ const Photos = ({ navigation }) => {
 
     useEffect(() => {
         let total = 0
-        imagesArr.forEach(function(value, index, array) {
-            if(value.images.length !== 0){
+        imagesArr.forEach(function (value, index, array) {
+            if (value.images.length !== 0) {
                 total = total + value.images.length
             }
             // The callback is executed for each element in the array.
             // `value` is the element itself (equivalent to `array[index]`)
             // `index` will be the index of the element in the array
             // `array` is a reference to the array itself (i.e. `data.items` in this case)
-        }); 
+        });
         setNoOfPhotos(total)
 
     }, [imagesArr])
@@ -226,9 +227,9 @@ const Photos = ({ navigation }) => {
                             <MaterialIcons name="view-list" size={34}
                                 color={selectedView === 'list' ? COLORS.lightblue1 : COLORS.darkGray1} style={{ alignSelf: 'center' }} />
                         </TouchableOpacity> */}
-                        <TouchableOpacity 
-                        disabled={true}
-                        onPress={() => setSelectedView('grid')}>
+                        <TouchableOpacity
+                            disabled={true}
+                            onPress={() => setSelectedView('grid')}>
                             <MaterialIcons name="apps" size={30}
                                 color={selectedView === 'grid' ? COLORS.lightblue1 : COLORS.darkGray1} style={{ alignSelf: 'center' }} />
                         </TouchableOpacity>
@@ -245,24 +246,26 @@ const Photos = ({ navigation }) => {
 
                 {!imagesArr || !imagesArr.length ?
                     <View />
-                    : 
+                    :
                     <ScrollView>
-                   
-                    {selectedLanguage ? 
-                    <Text style = {{fontFamily: 'LatoBold', color: COLORS.black, 
-                    fontSize: 16, paddingTop: 5, paddingHorizontal:5, paddingBottom: 3}}>Sorted by: {selectedLanguage}</Text>
-                    : null}
-                    <Text style = {{fontFamily: 'LatoRegular', color: COLORS.black, fontSize: 14, paddingHorizontal: 5,}}>(tap image to view in fullscreen mode)</Text>
 
-                    <FlatList
-                        data={imagesArr}
-                        renderItem={renderphotos}
-                        keyExtractor={(item, index) => "unique" + index}
-                        showsVerticalScrollIndicator={false}
-                        initialNumToRender={7}
-                        //numColumns={2}
-                        contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 5, paddingBottom: 100, marginBottom: 30 }}
-                    />
+                        {selectedLanguage ?
+                            <Text style={{
+                                fontFamily: 'LatoBold', color: COLORS.black,
+                                fontSize: 16, paddingTop: 5, paddingHorizontal: 5, paddingBottom: 3
+                            }}>Sorted by: {selectedLanguage}</Text>
+                            : null}
+                        <Text style={{ fontFamily: 'LatoRegular', color: COLORS.black, fontSize: 14, paddingHorizontal: 5, }}>(tap image to view in fullscreen mode)</Text>
+
+                        <FlatList
+                            data={imagesArr}
+                            renderItem={renderphotos}
+                            keyExtractor={(item, index) => "unique" + index}
+                            showsVerticalScrollIndicator={false}
+                            initialNumToRender={7}
+                            //numColumns={2}
+                            contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 5, paddingBottom: 100, marginBottom: 30 }}
+                        />
                     </ScrollView>
                 }
             </View>

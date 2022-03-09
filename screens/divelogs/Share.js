@@ -151,11 +151,11 @@ const Share = ({ route, navigation }) => {
                                             }}
                                         />
                                         : <Image
-                                            source={{ uri: 'http://157.245.56.243/dives/public/' + userData.data.image }}
+                                            source={{ uri: 'http://45.32.125.99/dives/public/' + userData.data.image }}
                                             style={{
                                                 height: 49,
                                                 width: 49,
-                                                borderRadius:49 / 2,
+                                                borderRadius: 49 / 2,
                                                 resizeMode: 'cover'
                                             }}
                                         />
@@ -164,7 +164,9 @@ const Share = ({ route, navigation }) => {
                             </View>
                         </View>
                         <View style={{ paddingLeft: 90, paddingTop: 25, }}>
-                            <Text style={{ fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black }}>John Smith</Text>
+                            <Text style={{ fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black }}>
+                                {!userData ? "" : userData.data.name}
+                            </Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 40, paddingHorizontal: 20, paddingVertical: 10, paddingBottom: 30 }}>
                             <View >

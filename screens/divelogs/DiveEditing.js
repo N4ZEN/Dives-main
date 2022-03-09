@@ -105,7 +105,7 @@ const DiveEditing = ({ navigation, route }) => {
     // }
     const _handleSubmit = (diveLog) => {
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/update-dive`, {
+        fetch(`http://45.32.125.99/dives/public/api/update-dive`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

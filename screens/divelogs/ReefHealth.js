@@ -122,7 +122,7 @@ const Reefhealth = ({ parentCallback, RefHealth }) => {
         setLoading(true)
         const body = new FormData();
         body.append('image', file);
-        fetch(`http://157.245.56.243/dives/public/api/get-path`, {
+        fetch(`http://45.32.125.99/dives/public/api/get-path`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

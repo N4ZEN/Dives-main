@@ -92,7 +92,7 @@ const Divelogging = ({ navigation }) => {
     }
     const _handleSubmit = (diveLog) => {
         setLoading(true)
-        fetch(`http://157.245.56.243/dives/public/api/store-dive`, {
+        fetch(`http://45.32.125.99/dives/public/api/store-dive`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -105,7 +105,7 @@ const Divelogging = ({ navigation }) => {
                 console.log(json)
                 setLoading(false)
                 if (json.status == 200) {
-                    Alert.alert("", json.message)
+                    //Alert.alert("", json.message)
                     navigation.goBack();
                 } else {
                     Alert.alert('', json.message)
