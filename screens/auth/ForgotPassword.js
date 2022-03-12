@@ -68,7 +68,7 @@ const ForgotPassword = ({ navigation }) => {
                 console.log('response ==>',json)
                 setLoading(false)
                 if (json.status == 200) {
-                    Alert.alert('Link to reset email has been sent to ' + Email)
+                    Alert.alert('','Link to reset email has been sent to ' + Email)
                     navigation.replace('Otp')
                 } else {
                     Alert.alert('', 'Incorrect email address')

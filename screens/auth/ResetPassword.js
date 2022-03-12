@@ -21,7 +21,7 @@ const ResetPassword = ({navigation}) => {
 
 
     const handleResetPassword = () => {
-        Alert.alert('Password has been reset')
+        Alert.alert('','Password updated successfully!')
         navigation.goBack();
        
     }
@@ -68,7 +68,6 @@ const ResetPassword = ({navigation}) => {
                     onSubmit={(values, actions) => {
                         addPwd();
                         actions.resetForm();
-                        actions.setErrors({});
                         
                     }}
                 >
