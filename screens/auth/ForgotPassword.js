@@ -2,13 +2,13 @@ import React from 'react';
 import { View, StyleSheet, Text, ActivityIndicator,Alert } from 'react-native';
 import { Feather, AntDesign } from 'react-native-vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Formik} from 'formik';
 import { COLORS, SIZES, colour } from '../../assets/colors/theme';
 
 import AuthLayout from '../../components/auth/AuthLayout';
 import AuthformInput from '../../components/auth/AuthformInput';
 import TextButton from '../../components/auth/TextButton';
-import { auth } from '../../firebase';
+import { passwordRecoverySchema } from '../../validation/PwdResetValidation'
 
 
 
@@ -25,10 +25,10 @@ const ForgotPassword = ({ navigation }) => {
         return email != "" && emailError == ""
     }
 
-    function SendEmailPress() {
-        alert('Are your sure to logout?')
-        navigation.goBack()
-    }
+
+
+
+
     React.useEffect(() => {
         bootstrapAsync()
     }, [])
@@ -69,9 +69,9 @@ const ForgotPassword = ({ navigation }) => {
                 setLoading(false)
                 if (json.status == 200) {
                     Alert.alert('Link to reset email has been sent to ' + Email)
-                    navigation.goBack()
+                    navigation.replace('Otp')
                 } else {
-                    Alert.alert('', json.message)
+                    Alert.alert('', 'Incorrect email address')
                 }
 
             })
@@ -79,13 +79,6 @@ const ForgotPassword = ({ navigation }) => {
                 setLoading(false)
                 console.log("response error ===>", error)
             })
-        // auth.sendPasswordResetEmail(email)
-        //   .then(function (user) {
-        //     alert('Link to reset email has been sent to ' + email)
-        //     navigation.goBack()
-        //   }).catch(function (e) {
-        //     alert(e)
-        //   })
     }
 
     React.useEffect(() => {
@@ -153,6 +146,7 @@ const ForgotPassword = ({ navigation }) => {
                     marginHorizontal: 10,
                 }}
                 onPress={() => {
+                    
                     //console.log('===>',email)
                     forgotPassword(email)
                 }}
@@ -168,7 +162,7 @@ const ForgotPassword = ({ navigation }) => {
                     backgroundColor: COLORS.pink,
                     marginHorizontal: 10,
                 }}
-                onPress={() => navigation.replace('SignIn')}
+                onPress={() => navigation.goBack()}
             />
 
         </AuthLayout>

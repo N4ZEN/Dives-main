@@ -45,7 +45,7 @@ import Otp from '../screens/auth/otp';
 import ForgotPassword from '../screens/auth/ForgotPassword';
 import TermsandCond from '../screens/auth/TermsnCon';
 import Welcome from '../screens/auth/welcome';
-
+import ResetPassword from '../screens/auth/ResetPassword';
 
 import { COLORS, colour } from '../assets/colors/theme';
 import { AuthContext } from '../components/auth/context';
@@ -257,6 +257,11 @@ const AuthStack = () => {
             />
 
             <Stack.Screen
+                name="ResetPassword"
+                component={ResetPassword}
+            />
+
+            <Stack.Screen
                 name="TermsandCond"
                 component={TermsandCond}
             />
@@ -367,6 +372,20 @@ const DrawerScreenss = ({ navigation, style }) => {
                 <Stack.Screen name="FAQs" options={{ headerShown: false }}>{props => <FAQs {...props} />}</Stack.Screen>
                 <Stack.Screen name="About" options={{ headerShown: false }}>{props => <About {...props} />}</Stack.Screen>
                 <Stack.Screen name="Settings" options={{ headerShown: false }}>{props => <Settings {...props} />}</Stack.Screen>
+                <Stack.Screen
+                name="ForgotPassword"
+                component={ForgotPassword}
+            />
+
+            <Stack.Screen
+                name="Otp"
+                component={Otp}
+            />
+
+            <Stack.Screen
+                name="ResetPassword"
+                component={ResetPassword}
+            />
             </Stack.Navigator>
         </Animated.View>
     )

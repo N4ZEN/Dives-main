@@ -27,7 +27,6 @@ import {Restart} from 'fiction-expo-restart';
 
 
 const SignIn = ({ navigation }) => {
-    const { signIn } = React.useContext(AuthContext);
 
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
@@ -82,54 +81,10 @@ const SignIn = ({ navigation }) => {
                 setLoading(false)
                 console.log("response error ===>", error)
             })
-        // auth
-        //     .signInWithEmailAndPassword(email, password)
-        //     .then(userCredentials => {
-        //         const user = userCredentials.user;
-        //         try{
-        //             setTimeout(() => {
-        //                 AsyncStorage.setItem(SIGNED_IN, 'true');
-        //             }, 500)
-        //         }catch {
-        //             console.log("COudn't access async storage")
-        //         }
-
-        //         if (user){
-        //             signIn();
-        //         }
-
-        //         console.log('Logged in with:', user);  
-        //     })
-        //     .catch(error => alert(error.message))
+       
     }
 
-    const Glogin = async () => {
-        try {
-            //await GoogleSignIn.askForPlayServicesAsync();
-            const result = await Google.logInAsync({ //return an object with result token and user
-                iosClientId: Constants.manifest.extra.IOS_KEY, //From app.json
-                androidClientId: Constants.manifest.extra.ANDROIUD_KEY, //From app.json
-            });
-            if (result.type === 'success') {
-                console.log(result);
-                setIsLoading(true);
-                const credential = firebase.auth.GoogleAuthProvider.credential( //Set the tokens to Firebase
-                    result.idToken,
-                    result.accessToken
-                );
-                auth
-                    .signInWithCredential(credential) //Login to Firebase
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            } else {
-                //CANCEL
-            }
-        } catch ({ message }) {
-            alert('login: Error:' + message);
-        }
-    };
-
+  
     const formRef = React.useRef();
 
     const addUSer = () => {
@@ -148,18 +103,6 @@ const SignIn = ({ navigation }) => {
             handleLogin();
         }
     }, [user])
-
-
-    // React.useEffect(() => {
-    //     const onSubscribe = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             user.userProfile({
-    //                 username: user
-    //             })
-    //         }
-    //     })
-    //     return onSubscribe
-    // }, []);
 
     return (
         <AuthLayout
@@ -275,7 +218,7 @@ const SignIn = ({ navigation }) => {
                             fontFamily: 'PoppinsRegular',
                             fontSize: 14,
                         }}
-                        onPress={() => navigation.navigate("ForgotPassword")}
+                        onPress={() => navigation.replace("ForgotPassword")}
                     />
                 </View>
 

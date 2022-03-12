@@ -298,6 +298,7 @@ const SignUp = ({ navigation }) => {
                                 }}
                                 onPress={handleSubmit}
                             />
+                            
                         </View>
                     )}
                 </Formik>
@@ -325,6 +326,30 @@ const SignUp = ({ navigation }) => {
                             fontSize: 16,
                         }}
                         onPress={() => navigation.navigate('SignIn')}
+                    />
+                </View>
+                <View style ={{
+                    marginTop: 10,
+                    alignItems: 'center',
+                }}>
+                    <Text style = {{
+                        color: COLORS.darkGray,
+                        fontFamily: 'PoppinsRegular',
+                        fontSize: 14,
+                    }}>
+                        By Signing up you agree to our
+                    </Text>
+                    <TextButton
+                        label ="Terms and Conditions"
+                        buttonContainerStyle={{
+                            backgroundColor: null,
+                        }}
+                        labelStyle={{
+                            color: COLORS.darkpink2,
+                            fontFamily: 'PoppinsRegular',
+                            fontSize: 14,
+                        }}
+                        onPress={() => navigation.navigate("TermsandCond")} 
                     />
                 </View>
 

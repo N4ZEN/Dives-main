@@ -1,12 +1,7 @@
 import * as yup from 'yup';
     
 
-export const userSignUpSchema = yup.object().shape({
-    email: yup.string().trim().email("Email is invalid").trim()
-    .required("Email is required"),
-    username : yup.string()
-    .min(4, "Username must be atleast 4 characters")
-    .required("Username is required"),
+export const PwdResetSchema = yup.object().shape({
     password: yup.string()
     .min(8, "Password must be atleast 8 characters")
     .max(16, "Password must be 16 characters or less")
@@ -17,3 +12,7 @@ export const userSignUpSchema = yup.object().shape({
 })
 
 
+export const passwordRecoverySchema = yup.object().shape({
+    email: yup.string().email("Email is invalid").trim()
+    .required("Email is required")
+})

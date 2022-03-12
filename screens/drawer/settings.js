@@ -62,8 +62,8 @@ const Settings = ({ navigation }) => {
         console.log('response ==>', json)
         setLoading(false)
         if (json.status == 200) {
-          Alert.alert('Link to change password has been sent to ' + userData.data.email)
-          navigation.goBack()
+          Alert.alert('OTP sent to email','A one-time code to reset your password has been sent to ' + userData.data.email)
+          navigation.replace('Otp')
         } else {
           Alert.alert('', json.message)
         }
@@ -154,6 +154,7 @@ const Settings = ({ navigation }) => {
                   text: "Yes",
                   onPress: () => {
                     changepassword();
+                    
                   },
                 },
                 // The "No" button
