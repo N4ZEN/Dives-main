@@ -62,8 +62,12 @@ const Settings = ({ navigation }) => {
         console.log('response ==>', json)
         setLoading(false)
         if (json.status == 200) {
-          Alert.alert('OTP sent to email','A one-time code to reset your password has been sent to ' + userData.data.email)
-          navigation.replace('Otp')
+          Alert.alert('', 'Link to reset email has been sent to ' + userData.data.email)
+          navigation.replace('Otp', {
+            code: json.otp,
+            email: userData.data.email,
+            userId: json.user._id
+          })
         } else {
           Alert.alert('', json.message)
         }
@@ -154,7 +158,7 @@ const Settings = ({ navigation }) => {
                   text: "Yes",
                   onPress: () => {
                     changepassword();
-                    
+
                   },
                 },
                 // The "No" button
@@ -203,20 +207,20 @@ const Settings = ({ navigation }) => {
             </View>
           }
           {isLoading &&
-                    <ActivityIndicator
-                        size='large'
-                        color='#000'
-                        style={{
-                            position: 'absolute',
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                    />
-                }
+            <ActivityIndicator
+              size='large'
+              color='#000'
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            />
+          }
         </View>
       </View>
 

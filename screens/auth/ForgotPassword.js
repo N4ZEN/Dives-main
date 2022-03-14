@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Text, ActivityIndicator,Alert } from 'react-native';
+import { View, StyleSheet, Text, ActivityIndicator, Alert } from 'react-native';
 import { Feather, AntDesign } from 'react-native-vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Formik} from 'formik';
+import { Formik } from 'formik';
 import { COLORS, SIZES, colour } from '../../assets/colors/theme';
 
 import AuthLayout from '../../components/auth/AuthLayout';
@@ -65,11 +65,15 @@ const ForgotPassword = ({ navigation }) => {
         })
             .then(res => res.json())
             .then(json => {
-                console.log('response ==>',json)
+                console.log('response ==>', json)
                 setLoading(false)
                 if (json.status == 200) {
-                    Alert.alert('','Link to reset email has been sent to ' + Email)
-                    navigation.replace('Otp')
+                    Alert.alert('', 'Link to reset email has been sent to ' + Email)
+                    navigation.replace('Otp', {
+                        code: json.otp,
+                        email: Email,
+                        userId: json.user._id
+                    })
                 } else {
                     Alert.alert('', 'Incorrect email address')
                 }
@@ -146,7 +150,7 @@ const ForgotPassword = ({ navigation }) => {
                     marginHorizontal: 10,
                 }}
                 onPress={() => {
-                    
+
                     //console.log('===>',email)
                     forgotPassword(email)
                 }}

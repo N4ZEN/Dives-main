@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Alert, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather, AntDesign } from '@expo/vector-icons';
-import { Formik} from 'formik';
+import { Formik } from 'formik';
 
 import { COLORS, SIZES, colour } from '../../assets/colors/theme';
 import AuthLayout from '../../components/auth/AuthLayout';
@@ -12,21 +12,47 @@ import { PwdResetSchema } from '../../validation/PwdResetValidation'
 
 
 
-const ResetPassword = ({navigation}) => {
+const ResetPassword = ({ navigation, route }) => {
 
     const [password, setPassword] = React.useState("")
     const [isLoading, setLoading] = React.useState(false)
     const [showpassword, setShowPassword] = React.useState(false)
     const [showconfpassword, setShowconfPassword] = React.useState(false)
-
+    const { userId } = route.params
 
     const handleResetPassword = () => {
-        Alert.alert('','Password updated successfully!')
-        navigation.goBack();
-       
+        setLoading(true)
+        fetch(`http://45.32.125.99/dives/public/api/change-password`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                password: password
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log('response ==>', json)
+                setLoading(false)
+                if (json.status == 200) {
+                    Alert.alert('', 'Password updated successfully!')
+                    navigation.goBack();
+                } else {
+                    Alert.alert('', json.message)
+                }
+
+            })
+            .catch(error => {
+                setLoading(false)
+                console.log("response error ===>", error)
+            })
+
     }
 
-  
+
     const formRef = React.useRef();
 
     const addPwd = () => {
@@ -35,7 +61,7 @@ const ResetPassword = ({navigation}) => {
     }
 
     React.useEffect(() => {
-        if ( password === '') {
+        if (password === '') {
             return;
         } else {
             handleResetPassword();
@@ -43,13 +69,13 @@ const ResetPassword = ({navigation}) => {
     }, [password])
 
 
-    
+
 
     return (
         <AuthLayout
-            title = "Reset Password"
-            subtitle = "Enter a new password of your choice. Password must be 8-16 characters."
-            titleContainerStyle = {{
+            title="Reset Password"
+            subtitle="Enter a new password of your choice. Password must be 8-16 characters."
+            titleContainerStyle={{
                 marginHorizontal: 5
             }}>
             <View
@@ -68,7 +94,7 @@ const ResetPassword = ({navigation}) => {
                     onSubmit={(values, actions) => {
                         addPwd();
                         actions.resetForm();
-                        
+
                     }}
                 >
                     {({ handleChange, handleBlur, touched, errors, isValid, handleSubmit, values }) => (
@@ -164,9 +190,9 @@ const ResetPassword = ({navigation}) => {
                 }
 
             </View>
-            
+
         </AuthLayout>
-  )
+    )
 }
 
 export default ResetPassword
