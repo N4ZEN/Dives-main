@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
@@ -9,10 +9,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { DrawerActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Turtle from '../../assets/icons/turtleicon.png';
-import Dolphin from '../../assets/icons/dolphin.png';
-import Fish from '../../assets/icons/fish.png';
-import Coral from '../../assets/icons/coral.png';
+
 import { COLORS, colour } from '../../assets/colors/theme';
 import activitiesData from '../../assets/data/activitiesData';
 import discoverData from '../../assets/data/discoverData';
@@ -29,6 +26,19 @@ const Home = ({ navigation }) => {
     const [selectedDiscover, setSelectedDiscover] = React.useState('All')
     const [orderDiscover, setOrderDiscover] = React.useState(discoverData)
     const [userData, setUserData] = React.useState('');
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+
+    const MyComponent = () => {
+        if (colorScheme === 'dark') {
+            setcolorsch(false)
+        } else {
+            setcolorsch(true)
+        }
+        console.log(colorScheme)
+    }
+
+
 
     const sortDiscover = (selected) => {
         if (selected == 'All') {
@@ -49,6 +59,10 @@ const Home = ({ navigation }) => {
         }
         setSelectedDiscover(selected)
     }
+
+    React.useEffect(() => {
+        MyComponent();
+    }, [])
 
     React.useEffect(() => {
         console.log('effect')
@@ -210,25 +224,25 @@ const Home = ({ navigation }) => {
                         <TouchableOpacity onPress={() => sortDiscover('All')}>
                             <Text style={{
                                 ...styles.discoverCatagoryText,
-                                color: (selectedDiscover == 'All') ? colour.orange : colour.gray
+                                color: (selectedDiscover == 'All') ? colour.orange : colorsch? COLORS.gray: colour.gray
                             }}>All</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('Popular')}>
                             <Text style={{
                                 ...styles.discoverCatagoryText,
-                                color: (selectedDiscover == 'Popular') ? colour.orange : colour.gray
+                                color: (selectedDiscover == 'Popular') ? colour.orange : colorsch? COLORS.gray:colour.gray
                             }}>Popular</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('HighRated')}>
                             <Text style={{
                                 ...styles.discoverCatagoryText,
-                                color: (selectedDiscover == 'HighRated') ? colour.orange : colour.gray
+                                color: (selectedDiscover == 'HighRated') ? colour.orange : colorsch? COLORS.gray:colour.gray
                             }}>High-Rated</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('Depth')}>
                             <Text style={{
                                 ...styles.discoverCatagoryText,
-                                color: (selectedDiscover == 'Depth') ? colour.orange : colour.gray
+                                color: (selectedDiscover == 'Depth') ? colour.orange :colorsch? COLORS.gray: colour.gray
                             }}>Depth</Text>
                         </TouchableOpacity>
                     </View>

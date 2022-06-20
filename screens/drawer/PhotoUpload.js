@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, Pressable, Image, Alert, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Pressable, Image, Alert, ActivityIndicator, Dimensions, ScrollView, useColorScheme } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -21,6 +21,21 @@ const Photos = ({ navigation }) => {
     const [imagesArr, setImagesArr] = React.useState([])
     const [isLoading, setLoading] = React.useState(false)
     const [userData, setUserData] = React.useState('');
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+
+    const MyComponent = () => {
+        if (colorScheme === 'dark') {
+            setcolorsch(false)
+        } else {
+            setcolorsch(true)
+        }
+        console.log(colorScheme)
+    }
+
+    React.useEffect(() => {
+        MyComponent();
+    }, [])
 
     React.useEffect(() => {
         bootstrapAsync()
@@ -119,7 +134,7 @@ const Photos = ({ navigation }) => {
                             <Text style={{ fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14 }}>{item.Date}</Text>
                         }
                         {(selectedLanguage === 'Divelog Date') &&
-                            <Text style={{ fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14 }}>{new Date(item.CreatedOn).toUTCString().substring(0, 23)}</Text>
+                            <Text style={{ fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14 }}>{new Date(item.CreatedOn).toUTCString().substring(0, 22)}</Text>
                         }
                         {(selectedLanguage === 'Location') &&
                             <Text style={{ fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14 }}>{item.Location.Name}</Text>
@@ -127,7 +142,10 @@ const Photos = ({ navigation }) => {
                     </View>
                 </View>
                 <View>
-                    <GridImageView data={item.images} heightOfGridImage={Dimensions.get('window').width / 4} transparent={0.8} />
+                    <GridImageView data={item.images} heightOfGridImage={Dimensions.get('window').width / 4} 
+                   // style={{color: colorsch? COLORS.black: COLORS.white}} 
+                    transparent={0.8}
+                     />
                 </View>
             </View>
         )
@@ -206,8 +224,10 @@ const Photos = ({ navigation }) => {
                         }}>{selectedLanguage}</Text>
                         {userData ?
                             <Picker
-                                style={{ padding: 10, height: 40, width: 50 }}
+                                style={{ padding: 10, height: 40, width: 50, color: COLORS.black }}
                                 enabled={pickerenabled()}
+                                dropdownIconColor={colorsch ? COLORS.darkGray: COLORS.lightGray}
+                                dropdownIconRippleColor ={colorsch ? COLORS.darkGray: COLORS.white}
                                 selectedValue={selectedLanguage}
                                 onValueChange={(itemValue) => {
                                     setSelectedLanguage(itemValue),
@@ -249,13 +269,13 @@ const Photos = ({ navigation }) => {
                     :
                     <ScrollView>
 
-                        {selectedLanguage ?
+                        {/* {selectedLanguage ?
                             <Text style={{
-                                fontFamily: 'LatoBold', color: COLORS.black,
-                                fontSize: 16, paddingTop: 5, paddingHorizontal: 5, paddingBottom: 3
+                                fontFamily: 'LatoBold', color: COLORS.darkGray,
+                                fontSize: 13, paddingTop: 5, paddingHorizontal: 5, paddingBottom: 3
                             }}>Sorted by: {selectedLanguage}</Text>
-                            : null}
-                        <Text style={{ fontFamily: 'LatoRegular', color: COLORS.black, fontSize: 14, paddingHorizontal: 5, }}>(tap image to view in fullscreen mode)</Text>
+                            : null} */}
+                        <Text style={{ fontFamily: 'LatoRegular', color: COLORS.darkGray, fontSize: 13, paddingHorizontal: 5, paddingTop:1}}>(tap image to view in fullscreen mode)</Text>
 
                         <FlatList
                             data={imagesArr}
@@ -264,7 +284,7 @@ const Photos = ({ navigation }) => {
                             showsVerticalScrollIndicator={false}
                             initialNumToRender={7}
                             //numColumns={2}
-                            contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 5, paddingBottom: 100, marginBottom: 30 }}
+                            contentContainerStyle={{ paddingTop: 5, paddingHorizontal: 5, paddingBottom: 100, marginBottom: 30 }}
                         />
                     </ScrollView>
                 }

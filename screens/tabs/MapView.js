@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback} from 'react';
 import {View, StyleSheet, Text, Dimensions, Platform,} from 'react-native';
-import MapView, {Marker, Callout} from 'react-native-maps';
+import MapView, {Marker, Callout, PROVIDER_GOOGLE} from 'react-native-maps';
 import { COLORS } from '../../assets/colors/theme';
 import {Feather, AntDesign, Entypo} from '@expo/vector-icons';
 import diveSitesDat from '../../assets/data/diveSitesDate';
@@ -148,6 +148,7 @@ const MapViews = ({navigation, route}) => {
         <View style={styles.container}>
            <MapView style={{flex:1}} 
                 ref={mapView}
+                provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
                 showsMyLocationButton={true}
                 initialRegion={position}

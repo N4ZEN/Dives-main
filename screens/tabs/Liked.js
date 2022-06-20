@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Alert, RefreshControl, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Alert, RefreshControl, FlatList, ActivityIndicator, SafeAreaView, useColorScheme } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 import * as SecureStore from 'expo-secure-store';
+import {Entypo} from '@expo/vector-icons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
@@ -34,6 +35,21 @@ const Liked = ({ navigation }) => {
     const [isFirstdive, setFirstdive] = React.useState(false);
     const [isLoading, setLoading] = React.useState(false)
     const [userData, setUserData] = React.useState('');
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+
+    const MyComponent = () => {
+        if (colorScheme === 'dark') {
+            setcolorsch(false)
+        } else {
+            setcolorsch(true)
+        }
+        console.log(colorScheme)
+    }
+
+    React.useEffect(() => {
+        MyComponent();
+    }, [])
 
     React.useEffect(() => {
         bootstrapAsync()
@@ -207,26 +223,33 @@ const Liked = ({ navigation }) => {
                             </View> */}
                             <View style = {{margin: 3}}>
                                 <View style={{flexDirection: 'row', }}>
+
                                     <Text style={{...styles.locationtext, width: (diveselected===item.CreatedOn)? 210: 300,}}
                                     >{item.Location?.Name} </Text>
                                     </View>
+                                    <View style={{flexDirection: 'row'}}>
+                                <Entypo name ="location-pin"  size = {20} color={(diveselected===item.CreatedOn) ? COLORS.darkGray :COLORS.lightGray}/>
                                     <Text style={{fontSize: 14,
                                         fontFamily: "PoppinsRegular",
                                         color: COLORS.black,
                                         textTransform: 'capitalize', 
-                                        width: (diveselected===item.CreatedOn)? 210:200
+                                        width: (diveselected===item.CreatedOn)? 180:200
                                     }}
-                                        >{item.Location?.Atoll} </Text>
-                                <View style= {{flexDirection: 'row',}}>
-                                
-                                    <Text style ={{width: (diveselected===item.CreatedOn)? 110: 250,}}>Date: {item.Date}     Time: {item.StartTime}</Text>
+                                    >{item.Location?.Atoll} </Text>
+                                    </View>
+                                <View style= {{flexDirection: 'row', maxWidth: (diveselected===item.CreatedOn)? 210:200}}>
+                                <MaterialIcons name ="event"  size = {18} color={(diveselected===item.CreatedOn) ? COLORS.darkGray :COLORS.lightGray} style={{paddingVertical: 1}}/>
+                                    <Text > Date: {item.Date}      </Text>
+                                    <MaterialIcons name ="schedule"  size = {18} color={(diveselected===item.CreatedOn) ? COLORS.darkGray :COLORS.lightGray} style={{paddingVertical: 1}} />
+
+                                    <Text> Time: {item.StartTime}</Text>
                                 </View>
                             </View>
                         </View>
 
                         {(diveselected===item.CreatedOn) &&
                         <View style = {{flexDirection: 'row'}}>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.lightGray2,
                              shadowColor: "#000",
                              shadowOffset: {
                                  width: 0,
@@ -236,12 +259,12 @@ const Liked = ({ navigation }) => {
                              shadowRadius: 3.84,
                              
                              elevation: 5,
-                             backgroundColor: COLORS.lightGray1, margin: 2.5,
+                             backgroundColor: COLORS.lightGray2, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() => navigation.navigate('Dive Edit', {divelogs: item})}>
-                                <MaterialIcons name = 'edit' size = {23} color= {COLORS.darkGray} />
+                                <MaterialIcons name = 'edit' size = {23} color= {COLORS.darkBlue} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.lightGray2,
                             shadowColor: "#000",
                             shadowOffset: {
                                 width: 0,
@@ -250,7 +273,7 @@ const Liked = ({ navigation }) => {
                             shadowOpacity: 0.25,
                             shadowRadius: 3.84,
                             elevation: 5,
-                            backgroundColor: COLORS.lightGray1, margin: 2.5,
+                            backgroundColor: COLORS.lightGray2, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() =>  Alert.alert('Delete Dive Log', 'Are you sure you want to delete divelog?',
                                     [
@@ -266,9 +289,9 @@ const Liked = ({ navigation }) => {
                                     ]
                                   )}
                                 >
-                                <MaterialIcons name = 'delete' size = {23} color= {COLORS.darkGray} />
+                                <MaterialIcons name = 'delete' size = {23} color= {COLORS.darkBlue} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.lightGray2,
                              shadowColor: "#000",
                              shadowOffset: {
                                  width: 0,
@@ -278,11 +301,11 @@ const Liked = ({ navigation }) => {
                              shadowRadius: 3.84,
                              
                              elevation: 5,
-                            backgroundColor: COLORS.lightGray1, margin: 2.5,
+                            backgroundColor: COLORS.lightGray2, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() => {navigation.navigate('Share', {item: item})}}
                                 >
-                                <MaterialIcons name = 'share' size = {23} color= {COLORS.darkGray} />
+                                <MaterialIcons name = 'share' size = {23} color= {COLORS.darkBlue} />
                             </TouchableOpacity>
                         </View>
                         }
@@ -292,7 +315,7 @@ const Liked = ({ navigation }) => {
                 {(diveselected===item.CreatedOn)  &&
                 <View style ={{marginLeft: 25, marginTop: -3, marginBottom: 3,}}>
                     
-                    <Text style = {{ fontSize: 13, color: COLORS.darkGray, fontFamily: "LatoRegular"}}>Last Modified: { new Date(item.CreatedOn).toUTCString().substring(0, 23)}</Text>
+                    <Text style = {{ fontSize: 13, color: COLORS.darkGray, fontFamily: "LatoRegular"}}>Last Modified: { new Date(item.CreatedOn).toUTCString().substring(0, 22)}</Text>
                 </View>}
             </View>
         )
@@ -476,6 +499,8 @@ const Liked = ({ navigation }) => {
                                 <Picker
                                     enabled={pickerenabled()}
                                     style={{ padding: 10, height: 40, width: 50 }}
+                                    dropdownIconColor={colorsch ? COLORS.darkGray: COLORS.lightGray}
+                                dropdownIconRippleColor ={colorsch ? COLORS.darkGray: COLORS.lightblue2}
                                     selectedValue={selectedLanguage}
                                     onValueChange={(itemValue) =>
                                         sortdivelogs(itemValue)
@@ -514,7 +539,7 @@ const Liked = ({ navigation }) => {
                                 data={orderdivelogs}
                                 renderItem={renderdivelogItem}
                                 keyExtractor={(item, index) => item.CreatedOn}
-                                showsVerticalScrollIndicator={false}
+                                showsVerticalScrollIndicator={true}
                                 initialNumToRender={7}
                                 bounces={false}
                                 refreshControl={
@@ -628,8 +653,8 @@ const styles = StyleSheet.create({
     },
     locationtext: {
         fontSize: 15,
-        fontFamily: "PoppinsBold",
-        color: COLORS.black,
+        fontFamily: "PoppinsSemiBold",
+        color: COLORS.darkBlue,
         textTransform: 'capitalize',
 
     },

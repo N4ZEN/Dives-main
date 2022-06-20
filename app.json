@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "Dives",
-    "slug": "diverss",
-    "privacy": "public",
+    "name": "Dives MV",
+    "slug": "divesmv",
     "description": "Dive Logging App",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -20,14 +19,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.watersolutions.divesmv",
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCNKs7ifWaHDnPkJlI0tIWw3uZyCXzUJLU"
+      },
+      "supportsTablet": false
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDvgrBFzpBpSKUZTPTQP6hELsCbgXvkyxQ"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1F2037"
       },
-      "package": "com.org.divess"
+      "package": "com.watersolutions.divesmv",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Platform, TextInput, Pressable, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Platform, TextInput, Pressable, Text, Dimensions, useColorScheme} from 'react-native';
 import {ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -44,8 +44,19 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
     const [boat, setBoat] = React.useState(false)
     const [drift, setDrift] = React.useState(false)
  {/* Rating */}
-    const [rating, setRating] = React.useState(0)   
+    const [rating, setRating] = React.useState(0)
 
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+ 
+    const MyComponent= ()=> {
+     if (colorScheme === 'dark') {
+       setcolorsch(false)
+     } else {
+       setcolorsch(true)
+     }
+     console.log(colorScheme)
+   }
 
 
     function handleWeightConv() {
@@ -254,6 +265,14 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
             Description: description,
         })
     }, [rating, maxDepth, textTime,airTemp, surfTemp, bottomTemp, weights, avgDepth, night, training, shore, boat, drift, description])
+
+    React.useEffect(() => {
+
+    }, [colorsch])
+    
+    React.useEffect(() => {
+      MyComponent();
+    }, [])
 
     return (
         <View>
@@ -475,7 +494,7 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                 </View>
             </View>
             <Text style = {{...styles.diveLogSubHeaders, fontSize: 13}}>Gear Used</Text>
-            
+            {/* weight */}
             <View>
             <FormInput
                     containerStyle = {{paddingBottom: 5,}}    
@@ -497,6 +516,7 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                     } 
                 />
             </View>
+            {/* Rating */}
             <Text style = {{...styles.diveLogSubHeaders, fontSize: 13}}>Dive Rating</Text>
             <View style= {{flexDirection: 'row',
                 //height: 55, 
@@ -517,7 +537,9 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                     ratingTextColor={(rating === 0) ?COLORS.darkGray1 :COLORS.lightblue2}
                     startingValue={rating}
                     fractions={2}
-                    tintColor={COLORS.lightGray2}
+                    tintColor={colorsch ? COLORS.lightGray2 : "#222224"}
+                    // tintColor={COLORS.lightGray2}
+                    ratingColor={colorsch ? "#ffcd01" :COLORS.lightblue3}
                     style= {{backgroundColor: COLORS.lightGray2, borderColor:COLORS.primaryBlur, }}
                     jumpValue={0.5}
 

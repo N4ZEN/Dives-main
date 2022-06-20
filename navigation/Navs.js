@@ -204,9 +204,22 @@ const MainNav = () => {
 
     return (
         <AuthContext.Provider value={authContexts}>
-            {isLoading ? <Splashscreen /> : userToken ?
-                <MainDrawer /> : isFirstLauch ? <OnboardingStack /> :
-                    <AuthStack />}
+            {isLoading? <Splashscreen/> : userToken ?
+             <MainDrawer /> : isFirstLauch ? <OnboardingStack />: 
+             <AuthStack />}
+            {/* <Stack.Navigator>
+
+{isLoading? (
+    <Stack.Screen name = "Splashscreen" component = {Splashscreen} options = {{headerShown: false}}/>
+ ): userToken ? (
+     <Stack.Screen name = "MainDrawer" component = {MainDrawer} options = {{headerShown: false}}/>
+     ) : 
+     isFirstLauch ?( 
+ <Stack.Screen name = "OnboardingStack" component = {OnboardingStack} options = {{headerShown: false}}/>
+): (
+    <Stack.Screen name = "AuthStack" component = {AuthStack} options = {{headerShown: false}}/>  
+    )}
+    </Stack.Navigator> */}
         </AuthContext.Provider>
     )
 };
@@ -337,13 +350,13 @@ const MainStack = () => {
             <Stack.Screen name="Share" component={Share} options={{ headerShown: false }} />
             <Stack.Screen name="Dive Log" component={Divelogging} options={{
                 headerShown: true,
-                //headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
-                //headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
+                headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
+                headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
             }} />
             <Stack.Screen name="Dive Edit" component={DiveEditing} options={{
                 headerShown: true,
-                // headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
-                //headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
+                headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
+                headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
             }} />
         </Stack.Navigator>
     )

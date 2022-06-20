@@ -63,9 +63,9 @@ const About = ({navigation}) => {
                 </View>
                
             <View style = {{marginTop: -40}}>
-                <Text style={{...styles.subHeader, color: COLORS.darkGray3}}>Dives MV</Text>
-                <Text style={{...styles.Header, color: colorsch? COLORS.black : COLORS.black}}>Small Islands Geographic Society (SIGS)</Text>
-                <Text style={{...styles.maintext, textAlign: 'justify'}}>We are a NGO registered in the Maldives to create an 
+                <Text style={{...styles.subHeader, color: colorsch? COLORS.darkGray3: COLORS.gray}}>Dives MV</Text>
+                <Text style={{...styles.Header, color: colorsch? COLORS.black : COLORS.darkpink1}}>Small Islands Geographic Society (SIGS)</Text>
+                <Text style={{...styles.maintext, textAlign: 'justify', color: colorsch? COLORS.darkGray :COLORS.darkGray2}}>We are a NGO registered in the Maldives to create an 
                 interest among young people and building new generations who are interested 
                 on the unique environment, geography, and the livelihood of small islands. 
                 The organisation has been founded by a group of individuals consisting of 

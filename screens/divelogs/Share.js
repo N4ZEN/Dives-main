@@ -99,6 +99,7 @@ const Share = ({ route, navigation }) => {
                             startingValue={item.Location.LocationRating}
                             fractions={2}
                             tintColor={'#99C1E4'}
+                            ratingColor={colorsch ? "#ffcd01" :"#231709"}
                             imageSize={30}
                             jumpValue={0.5}
                             starContainerStyle={{

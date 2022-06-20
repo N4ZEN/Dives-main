@@ -1,19 +1,23 @@
 import React, {useMemo, useCallback, useEffect} from 'react';
-import {View, StyleSheet, Text, Dimensions, Platform, ScrollView, useColorScheme  } from 'react-native';
-import MapView, {Marker, Callout} from 'react-native-maps';
+import {View, StyleSheet, Text, Dimensions, Platform, ScrollView, useColorScheme, Image, Alert  } from 'react-native';
+import MapView, {Marker, Callout, PROVIDER_GOOGLE} from 'react-native-maps';
 import { TouchableOpacity as TouchableOpacit} from 'react-native';
 import FAB from 'react-native-fab'
-import { COLORS } from '../../assets/colors/theme';
-import {Feather, AntDesign, Entypo} from '@expo/vector-icons';
+import { COLORS, SIZES } from '../../assets/colors/theme';
+import {Feather, AntDesign, Entypo, MaterialIcons} from '@expo/vector-icons';
 import diveSitesDat from '../../assets/data/diveSitesDate';
 import { FlatList, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Overlay } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
+// import * as Location from 'expo-location';
 
 import Carousel from 'react-native-snap-carousel';
 import Spinner from 'react-native-loading-spinner-overlay';
 //import * as Location from 'expo-location';
 import TestSearch from '../../components/divelogs/testSearch'
+import FormInput from '../../components/divelogs/FormInput';
+import TextButton from '../../components/auth/TextButton';
+
 
 
 const MapViews = ({navigation, route}) => {
@@ -43,6 +47,13 @@ const MapViews = ({navigation, route}) => {
         latitudeDelta: 5,
         longitudeDelta: 5,
    });
+
+   const [region, setregion] = React.useState()
+   const [showmaparr, setshowmaparr]=React.useState(true);
+   const [customlocaName, setcustomlocName] = React.useState('');
+   
+   const [mylocation, setmylocation] = React.useState();
+
    const [rating, setRating] = React.useState(2.5);
    const [colorsch, setcolorsch] = React.useState(true)
    const colorScheme = useColorScheme();
@@ -88,8 +99,23 @@ const MapViews = ({navigation, route}) => {
       }
     };
 
+//change location
+    const createusermarker = (region) => {
+      setregion(region)
+       // setusermarker(region)
+    }
 
- 
+    const addcustloc =() => {
+      setLocation({
+        Name: customlocaName,
+        Atoll: `lat: ${parseFloat(region.latitude).toFixed(3)}, long: ${parseFloat(region.longitude).toFixed(3)}`,
+        Latitude: region.latitude,
+        longitude: region.latitude,
+        latitudeDelta: 5,
+        longitudeDelta: 5,
+      })
+      setshowoverlay(true)
+    }
 
     React.useEffect(() =>{ 
       
@@ -120,8 +146,29 @@ const MapViews = ({navigation, route}) => {
     }, [selectedValue])
 
     React.useEffect(() => {
+     // console.log(region)
+
+    }, [region])
+
+    
+    // React.useEffect(() => {
+      //   (async () => {
+        //     let { status } = await Location.requestForegroundPermissionsAsync();
+        //     if (status !== 'granted') {
+          //       Alert.alert('','Location Permission denied. Please enable location permission in your settings.');
+          //       return;
+          //     }
+          
+          //     let myclocation = await Location.getCurrentPositionAsync({});
+          //     setmylocation(myclocation);
+          //     console.log()
+          //   })();
+          // }, []);
+          
+    React.useEffect(() => {
 
     }, [colorsch])
+
     React.useEffect(() => {
       MyComponent();
     }, [])
@@ -129,19 +176,30 @@ const MapViews = ({navigation, route}) => {
 
     return (
         <View style={styles.container}>
-           <MapView style={{flex:1}} 
+           <MapView style={{flex:1, ...StyleSheet.absoluteFillObject,
+        }} 
                 ref={mapView}
+                //provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
                 showsMyLocationButton={true}
                 initialRegion={position}
-                region={position}                
+               // region={position}                
                 showsCompass= {true}
-                onRegionChangeComplete={onRegionChangeComplete}
-              >   
+                onRegionChangeComplete={(region) => {
+                  if(showmaparr) {
+                    onRegionChangeComplete()
+                  } else {
+                    createusermarker(region)
+                  }
+                }}
+              > 
+                
+                {showmaparr &&
+                <View>
                 {diveSitesData.map((item, index) => {
-                return (
+                  return (
                     <Marker 
-                        key={`marker-${item.OBJECTID}`}
+                    key={`marker-${item.OBJECTID}`}
                         ref={ref => setMarkers[index] = ref }
                         onPress = {() =>{   
                           OnMarkerPressed(item)
@@ -164,15 +222,20 @@ const MapViews = ({navigation, route}) => {
                             <Text style = {{fontSize: 14}}>{item.Name}</Text>
                         </Callout> 
                     </Marker>
-                );
-                })}
+                    );
+                  })}
+                  </View>
+                }
             </MapView>
-            
-            <TestSearch parentCallback={callback}/> 
 
-            {showcarousel2 &&
+            {showmaparr &&
+            <TestSearch parentCallback={callback}/> 
+            }
+
+            {/* view select location */}
+            {showcarousel2 && showmaparr &&
             <View style={{flex: 1,
-                bottom: 60,
+                bottom: 40,
                 width: Dimensions.get('window').width -25,
                 position: 'absolute',
                 elevation: 13,
@@ -191,6 +254,7 @@ const MapViews = ({navigation, route}) => {
                 </View>
             </View>}
 
+            {/* rate location overlay  */}
             {showoverlay && 
             <View>
             <Overlay
@@ -206,9 +270,9 @@ const MapViews = ({navigation, route}) => {
                     </View>
                       <View style = {styles.cardItemWrapper}>
                         <Entypo name ="location-pin"  size = {20} color={COLORS.darkGray}/>
-                        <Text style = {styles.descriptionText}>{location.Atoll}</Text>
+                        <Text style = {styles.descriptionText}>{location?.Atoll}</Text>
                       </View>
-                    <View style={{marginTop: 20, marginBottom: 20,}}>
+                    <View style={{marginTop: 0, marginBottom: 20,}}>
                       <Text style={{fontFamily: 'LatoBold', fontSize: 16, paddingVertical: 10,}}>Rate dive location: </Text>
                       <Rating 
                         type='custom'
@@ -220,7 +284,7 @@ const MapViews = ({navigation, route}) => {
                         tintColor={colorsch ? COLORS.white : "#1C1D1F"}
                         imageSize={45}
                         jumpValue={0.5} 
-                        //ratingColor={COLORS.lightblue3}
+                        ratingColor={colorsch ? "#ffcd01" :COLORS.lightblue2}
                         onFinishRating={(value => setRating(value))}
                         style={{paddingHorizontal: 40,}}
                         starContainerStyle={{
@@ -242,6 +306,121 @@ const MapViews = ({navigation, route}) => {
                 </Overlay>
               </View>
             }
+
+
+            {/* view add location */}
+            {!showmaparr && (region !== undefined) &&
+            <View style={{flex: 1,
+                bottom: 40,
+                width: Dimensions.get('window').width -25,
+                position: 'absolute',
+                elevation: 13,
+                alignSelf: 'center', 
+                }}>
+                <View style = {styles.cardContainer}>
+                <Text style={{...styles.descriptionText, color: colorsch? COLORS.darkGray: COLORS.darkGray2,
+                   paddingBottom: 15, marginTop: -40, textTransform: 'none'}}>(move map to your dive location)</Text>
+                  <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text style = {styles.titleStyles}>Add Location:</Text>
+                    <TextButton
+                      label="Cancel"
+                      buttonContainerStyle={{
+                        backgroundColor: null
+                    }}
+                    labelStyle={{
+                        color: COLORS.darkpink2,
+                        textDecorationLine: 'underline',
+                        fontFamily: 'PoppinsRegular',
+                        fontSize: 14,
+                    }}
+                      onPress={() => setshowmaparr(true)}
+                  />
+                  </View>
+                    <View style = {styles.cardItemWrapper}>
+                        <Entypo name ="location-pin"  size = {20} color={COLORS.darkGray}/>
+                        <Text style = {styles.descriptionText}>Latitude:</Text>
+                        <Text style = {styles.descriptionText}>{parseFloat(region.latitude).toFixed(3).toString()}</Text>
+                        <Text style = {styles.descriptionText}>, Longitude:</Text>
+                        <Text style = {styles.descriptionText}>{parseFloat(region.longitude).toFixed(3).toString()}</Text>
+                    </View>
+                    <View style={{ marginBottom: 1, marginTop: -15 }}>
+                      <FormInput
+                        styleMain={{ height: 50, }}
+                        containerStyle={{ paddingBottom: 0, marginBottom: 10 }}
+                        style={styles.input}
+                        inputStyle={{ color: COLORS.black, paddingBottom: 5, }}
+                        multiline={false}
+                        placeholder={"Location Name"}
+                        editable={true}
+                        value={customlocaName}
+                        onChangeText={(value)=> {setcustomlocName(value)} }
+                      />
+                    </View>
+                    <TouchableOpacity style= {{...styles.selectButton, 
+                            backgroundColor: (customlocaName=== '')?COLORS.lightblue1: COLORS.blue,
+                    }}
+                    disabled={(customlocaName === '')}
+                    onPress = {() => {addcustloc();}}
+                      >
+                        <Text style = {styles.selectButtonText}>Select</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>}
+            
+            {!showmaparr && (region === undefined) &&
+            <View style={{position:'absolute', bottom: 20, left:100  }}>
+            <Text style={{...styles.descriptionText, paddingBottom: 15, marginTop: -40, fontSize: 15, color: colorsch? COLORS.darkGray: COLORS.darkGray2,
+              textTransform: 'none'}}>(move map to your dive location)</Text>
+              </View>
+            }
+
+            {/* FAB add location button */}  
+            {showmaparr &&         
+                <View style={{
+                    position: 'absolute',
+                    bottom: showcarousel2 ? 160: 40,
+                    right: 1,
+                    //width: 30,
+                }}>
+                    <FAB
+                        buttonColor={COLORS.white}
+                        onClickAction={() => setshowmaparr(false)}
+                        visible={true}
+                        iconTextColor={COLORS.black}
+                        iconTextComponent={<Feather name="plus" color={COLORS.black} size={35} />}
+                    />
+                </View>
+              }
+
+            {/* my location button*/} 
+            {(mylocation !== undefined) &&      
+                <View style={{
+                    position: 'absolute',
+                    bottom: showcarousel2 ? 230 : !showmaparr? 230: 110,
+                    right: 1,
+                }}>
+                    <FAB
+                        buttonColor={COLORS.white}
+                       // onClickAction={() => setshowmaparr(false)}
+                        visible={true}
+                        iconTextColor={COLORS.black}
+                        iconTextComponent={<MaterialIcons name="my-location" color={COLORS.black} size={35} />}
+                    />
+                </View>
+            }  
+            
+
+            {/* add location icon */}
+            {!showmaparr && 
+            <View style ={{position: 'absolute',
+              top: Dimensions.get('window').height /3 -27,
+              right: Dimensions.get('window').width /2 -25,
+             }}>
+              <Image source={require('../../assets/icons/loc.png')} style={{height: 50, width: 50, resizeMode: 'contain'}}/>
+            </View>
+          }
+
+            {/* backbutton */}
             <View style={{flex: 1,
                  flex: 1,
                  flexDirection:'row',
@@ -256,6 +435,7 @@ const MapViews = ({navigation, route}) => {
                 <Entypo name='chevron-left' size={32} color={COLORS.black} />
               </TouchableOpacity>
             </View>
+
         </View>
     );
 }
